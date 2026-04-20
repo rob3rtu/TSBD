@@ -1,0 +1,54 @@
+---
+weight: 8
+draft: false
+title: "createQuadrille(string)"
+---
+
+Creates a quadrille and fills its cells using the characters from the provided `string`. The number of columns in the quadrille matches the length of the string.
+
+## Example
+
+{{< p5-global-iframe quadrille="true" width="625" height="125" >}}
+'use strict';
+let quadrille;
+
+function setup() {
+  createCanvas(6 * Quadrille.cellLength, Quadrille.cellLength);
+  quadrille = createQuadrille('hola 👽');
+}
+
+function draw() {
+  background('orange');
+  drawQuadrille(quadrille);
+}
+{{< /p5-global-iframe >}}
+
+{{% details title="code" open=true %}}
+```js
+let quadrille;
+
+function setup() {
+  createCanvas(6 * Quadrille.cellLength, Quadrille.cellLength);
+  quadrille = createQuadrille('hola 👽');
+}
+
+function draw() {
+  background('orange');
+  drawQuadrille(quadrille);
+}
+```
+{{% /details %}}
+
+{{< callout type="info" >}}
+The `createQuadrille(string)` function fills a quadrille with each character of the provided string, where each column represents one character.
+{{< /callout >}}
+
+## Syntax
+
+> `createQuadrille(string)`
+
+## Parameters
+
+| Param    | Description                                                    |
+|----------|----------------------------------------------------------------|
+| `string` | String: The string used to fill the quadrille cells. Each character occupies one cell |

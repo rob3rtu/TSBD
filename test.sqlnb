@@ -1,0 +1,7 @@
+cells:
+  - kind: 2
+    value: |-
+      select *
+        from embeddings
+       where rownum <= 5;
+    languageId: oracle-sql
