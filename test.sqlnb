@@ -3,5 +3,33 @@ cells:
     value: |-
       select *
         from embeddings
-       where rownum <= 5;
+       fetch first 10 rows only;
+    languageId: oracle-sql
+  - kind: 2
+    value: drop table EMBEDDINGS
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      create or replace directory dm_dump as '/home/oracle/models';
+
+      grant read,write on directory dm_dump to sys;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      begin
+         dbms_vector.load_onnx_model(
+            directory  => 'DM_DUMP',
+            file_name  => 'all_MiniLM_L12_v2.onnx',
+            model_name => 'ALL_MINILM_L12_V2'
+         );
+      end;
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      select model_name,
+             algorithm,
+             mining_function
+        from user_mining_models
+       where model_name = 'ALL_MINILM_L12_V2';
     languageId: oracle-sql
