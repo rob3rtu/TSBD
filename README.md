@@ -32,7 +32,7 @@ Aceasta comanda creeaza un container si il porneste. Ulterior acesta poate fii o
 
 Modelul folosit in acest proiect poate fii descarcat de [aici](https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/import-pretrained-models-onnx-format-vector-generation-database.html). Dupa ce dezarhivam arhiva vom vedea modelul intr-un fisier cu extensia `.onnx`. Pentru a putea fii vizibil in baza de date trebuie sa il importam in container. Noi am ales sa il adaugam la locatia `/home/oracle/models`:
 
-![]()
+![ss-docker](https://github.com/rob3rtu/TSBD/blob/main/images/ss-docker.png)
 
 ## Comands
 
