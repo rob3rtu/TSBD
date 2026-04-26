@@ -3,7 +3,7 @@ cells:
     value: |-
       select *
         from embeddings
-       fetch first 10 rows only;
+       fetch first 5 rows only;
     languageId: oracle-sql
   - kind: 2
     value: drop table EMBEDDINGS
