@@ -8,7 +8,7 @@ class OracleVectorManager:
         self.conn = oracledb.connect(
             user="SYS",
             password="YourSecurePassword123",
-            dsn="localhost:1522/FREEPDB1",
+            dsn="localhost:1521/FREEPDB1",
             mode=oracledb.AUTH_MODE_SYSDBA
         )
         self.model_name = "ALL_MINILM_L12_V2" 
