@@ -8,7 +8,7 @@ class OracleVectorManager:
         self.conn = oracledb.connect(
             user="SYS",
             password="YourSecurePassword123",
-            dsn="localhost:1521/FREEPDB1",
+            dsn="localhost:1522/FREEPDB1",
             mode=oracledb.AUTH_MODE_SYSDBA
         )
         self.model_name = "ALL_MINILM_L12_V2" 
@@ -105,12 +105,13 @@ class OracleVectorManager:
             print(f"Search error: {e}")
             return []
 
-manager = OracleVectorManager()
-manager.load_and_sync_db('./docs/mutators/')
+if __name__ == "__main__":
+    manager = OracleVectorManager()
+    manager.load_and_sync_db('./docs/mutators/')
 
-query = "How to configure a custom mutator?"
-results = manager.search(query)
+    query = "How to configure a custom mutator?"
+    results = manager.search(query)
 
-print(f"\n--- Search Results for: '{query}' ---")
-for i, res in enumerate(results, 1):
-    print(f"{i}. {res['content']}")
+    print(f"\n--- Search Results for: '{query}' ---")
+    for i, res in enumerate(results, 1):
+        print(f"{i}. {res['content']}")
