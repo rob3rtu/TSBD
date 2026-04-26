@@ -4,7 +4,9 @@ Acest proiect are ca scop implementarea cautarii semantice peste un set de docum
 
 ## Arhitectura solutiei
 
-Documentele sunt prima data impartite in chunks (fragmente de text de dimensiuni relativ mici) pentru a putea fi prelucrate de modelul de embedding. Documentele sunt in format Markdown astfel ca strategia de chunking a fost adaptata astfel incat fiecare fisier este impartit pe sectiuni delimitate de un header. Acest model genereaza cate un embedding pentru fiecare chunk si le stocheaza intr un tabel cu 2 coloane de tipul VARCHAR si VECTOR.
+Documentele sunt prima data impartite in chunks (fragmente de text de dimensiuni relativ mici) pentru a putea fi prelucrate de modelul de embedding. Documentele sunt in format Markdown astfel ca strategia de chunking a fost adaptata si fiecare fisier este impartit pe sectiuni delimitate de un header. Acest model genereaza cate un embedding pentru fiecare chunk si le stocheaza intr un tabel cu 2 coloane de tipul VARCHAR si VECTOR.
+
+![embeddings](https://github.com/rob3rtu/TSBD/blob/main/images/embeddings.png)
 
 Un embedding este un vector numeric ce reprezinta un echivalent al sensului semantic pentru un text. Doua texte diferite dar cu sens asemanator vor avea vectori apropiati.
 
@@ -34,11 +36,56 @@ Modelul folosit in acest proiect poate fii descarcat de [aici](https://docs.orac
 
 ![ss-docker](https://github.com/rob3rtu/TSBD/blob/main/images/ss-docker.png)
 
-## Comands
+### 3. Adaugarea modelului in baza de date
 
-docker pull container-registry.oracle.com/database/free:latest
+Odata descarcat si incarcat in Docker, modelul trebuie adaugat si in baza de date. Pentru asta rulam urmatoarele comenzi:
 
-## PPT
+```sql
+create or replace directory dm_dump as '/home/oracle/models';
+
+grant read,write on directory dm_dump to sys;
+
+begin
+   dbms_vector.load_onnx_model(
+      directory  => 'DM_DUMP',
+      file_name  => 'all_MiniLM_L12_v2.onnx',
+      model_name => 'ALL_MINILM_L12_V2'
+   );
+end;
+/
+```
+
+Acum putem verifica daca am incarcam cu succes modelul si acesta este vizibil in baza de date:
+
+```sql
+select model_name,
+       algorithm,
+       mining_function
+  from user_mining_models
+ where model_name = 'ALL_MINILM_L12_V2';
+```
+
+![check model](https://github.com/rob3rtu/TSBD/blob/main/images/model-check.png)
+
+### 4. Pornim aplicatia
+
+Acum putem porni aplicatia folosind urmatoarea comanda:
+
+```
+streamlit run ui.py
+```
+
+Aceasta va porni un server local disponibil pe `http://localhost:8501/`:
+
+![demo-start](https://github.com/rob3rtu/TSBD/blob/main/images/demo-start.png)
+
+Acum putem cauta orice in fisierele Markdown deja indexate:
+
+![demo1](https://github.com/rob3rtu/TSBD/blob/main/images/demo-search1.png)
+
+![demo2](https://github.com/rob3rtu/TSBD/blob/main/images/demo-search2.png)
+
+## Prezentare
 
 [link](https://onedrive.live.com/:p:/g/personal/3fa7202e406714ae/IQBBc3iGf5wWR7VAqDki67KlAVQwWIczbJOyEKWMJR0t_08?rtime=uiY0Jrmj3kg&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3AvYy8zZmE3MjAyZTQwNjcxNGFlL0lRQkJjM2lHZjV3V1I3VkFxRGtpNjdLbEFWUXdXSWN6YkpPeUVLV01KUjB0XzA4P2U9NkhFZjdH)
 
